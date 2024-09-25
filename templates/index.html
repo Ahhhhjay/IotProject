@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LED Control</title>
+</head>
+<body>
+    <h1>Control the LED</h1>
+    <button id="mySwitch" value="0">Switch</button>
+    <p id="demo">LED is OFF</p>
+
+    <script>
+        const mySwitch = document.getElementById("mySwitch");
+        let switchState = 0;  
+
+        mySwitch.addEventListener("click", function() {
+            
+            switchState = switchState === 0 ? 1 : 0;
+
+            
+            document.getElementById("demo").innerHTML = switchState === 1 ? 'LED is ON' : 'LED is OFF';
+
+                fetch('/toggle', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ state: switchState })
+            })
+            .then(response => response.json())
+            .then(data => {
+                
+                console.log(data);
+            });
+        });
+    </script>
+</body>
+</html>
