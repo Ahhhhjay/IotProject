@@ -1,11 +1,63 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="index.css">
     <title>LED Control</title>
+
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+            font-family: Arial, sans-serif;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+        }
+
+        .lightbulb {
+            width: 100px;
+            height: 150px;
+            background-color: #333;
+            border-radius: 50% 50% 45% 45%;
+            margin-bottom: 20px;
+            position: relative;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .lightbulb.on {
+            background-color: yellow;
+            box-shadow: 0 0 50px yellow;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        #demo {
+            font-size: 20px;
+            margin-top: 20px;
+        }
+    </style>
 </head>
+
 <body>
     <h1>Control the LED</h1>
     <div class="lightbulb" id="lightbulb"></div>
@@ -15,13 +67,13 @@
     <script>
         const mySwitch = document.getElementById("mySwitch");
         const lightbulb = document.getElementById("lightbulb");
-        let switchState = 0;  
+        let switchState = 0;
 
-        mySwitch.addEventListener("click", function() {
-            
+        mySwitch.addEventListener("click", function () {
+
             switchState = switchState === 0 ? 1 : 0;
 
-            
+
             document.getElementById("demo").innerHTML = switchState === 1 ? 'LED is ON' : 'LED is OFF';
 
             if (switchState === 1) {
@@ -30,19 +82,20 @@
                 lightbulb.classList.remove("on");
             }
 
-                fetch('/toggle', {
+            fetch('/toggle', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({ state: switchState })
             })
-            .then(response => response.json())
-            .then(data => {
-                
-                console.log(data);
-            });
+                .then(response => response.json())
+                .then(data => {
+
+                    console.log(data);
+                });
         });
     </script>
 </body>
+
 </html>
